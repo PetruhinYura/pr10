@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список справ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Список справ</h1>
+    
+    <div class="info-panel">
+        <div>Всього справ: <span id="total-counter">0</span></div>
+        <div>Незроблено: <span id="incomplete-counter">0</span></div>
+    </div>
+    
+    <div class="todo-input">
+        <input type="text" id="new-todo" placeholder="Додати нову справу...">
+        <button onclick="newTodo()">Додати</button>
+    </div>
+    
+    <div class="todo-container">
+        <ul id="todo-list"></ul>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
