@@ -1,6 +1,32 @@
 // Масив для зберігання справ
 let todos = [];
 
+// Функція для завантаження справ з Local Storage
+function loadTodos() {
+    const savedTodos = localStorage.getItem('todos');
+    if (savedTodos) {
+        try {
+            todos = JSON.parse(savedTodos);
+            render(todos);
+            updateCounter();
+            console.log('Завантажено справи з Local Storage:', todos);
+        } catch (error) {
+            console.error('Помилка при завантаженні справ з Local Storage:', error);
+            todos = [];
+        }
+    }
+}
+
+// Функція для збереження справ у Local Storage
+function saveTodos() {
+    try {
+        localStorage.setItem('todos', JSON.stringify(todos));
+        console.log('Збережено справи у Local Storage:', todos);
+    } catch (error) {
+        console.error('Помилка при збереженні справ у Local Storage:', error);
+    }
+}
+
 // Функція для додавання нової справи
 function newTodo() {
     const input = document.getElementById('new-todo');
@@ -27,6 +53,9 @@ function newTodo() {
         // Оновлюємо відображення списку та лічильників
         render(todos);
         updateCounter();
+        
+        // Зберігаємо дані у Local Storage
+        saveTodos();
     }
 }
 
@@ -77,6 +106,9 @@ function deleteTodo(id) {
     // Оновлюємо відображення та лічильники
     render(todos);
     updateCounter();
+    
+    // Зберігаємо оновлений список у Local Storage
+    saveTodos();
 }
 
 // Функція для позначення справи як виконаної або невиконаної
@@ -95,15 +127,26 @@ function checkTodo(id) {
     // Оновлюємо відображення та лічильники
     render(todos);
     updateCounter();
+    
+    // Зберігаємо оновлений список у Local Storage
+    saveTodos();
 }
 
-// Початкове відображення порожнього списку
-render(todos);
-updateCounter();
-
-// Додавання нової справи при натисканні Enter у полі вводу
-document.getElementById('new-todo').addEventListener('keyup', function(event) {
-    if (event.key === 'Enter') {
-        newTodo();
+// Початкове відображення списку справ
+// Завантажуємо збережені справи при завантаженні сторінки
+document.addEventListener('DOMContentLoaded', function() {
+    loadTodos();
+    
+    // Якщо даних немає, показуємо порожній список
+    if (todos.length === 0) {
+        render(todos);
+        updateCounter();
     }
+    
+    // Додавання нової справи при натисканні Enter у полі вводу
+    document.getElementById('new-todo').addEventListener('keyup', function(event) {
+        if (event.key === 'Enter') {
+            newTodo();
+        }
+    });
 });
